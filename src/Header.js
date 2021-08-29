@@ -3,12 +3,29 @@ import './Header.css'
 import Logo from './amazon.png';
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket"
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useStateValue } from './StateProvider';
+import { auth } from './Firebase'
+import { signOut } from "firebase/auth";
 
 function Header() {
+    
     // eslint-disable-next-line
     const [state, dispatch] = useStateValue()
+
+    const history = useHistory()
+
+    const handleAuth = () => {
+        if (state.user) {
+            signOut(auth).then(() => {
+                history.push('/')
+              }).catch((error) => {
+                // An error happened.
+              });
+        } else {
+
+        }
+    }
 
     return (
         <div className="header">
@@ -20,14 +37,16 @@ function Header() {
                 <SearchIcon className="header__searchIcon" />
             </div>
             <div className="header__nav">
-                <div className="header__option">
-                    <span className="header__optionLineOne">
-                        Hello Guest
-                    </span>
-                    <span className="header__optionLineTwo">
-                        Sign In
-                    </span>
-                </div>
+                <Link to={!state.user && "/login"}>
+                    <div onClick={handleAuth} className="header__option">
+                        <span className="header__optionLineOne">
+                            {state.user ? 'Welcome' : 'Guest'}
+                        </span>
+                        <span className="header__optionLineTwo">
+                            {state.user ? 'Sign Out' : 'Sign In'}
+                        </span>
+                    </div>
+                </Link>                
 
                 <div className="header__option">
                     <span className="header__optionLineOne">

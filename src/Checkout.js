@@ -7,7 +7,7 @@ import Product from './Product'
 
 function Checkout() {
     // eslint-disable-next-line
-    const [{ basket }, dispatch] = useStateValue();
+    const [{ basket, user }, dispatch] = useStateValue();
 
     return (
         <div className="checkout">
@@ -15,6 +15,7 @@ function Checkout() {
                 <a href="https://www.primevideo.com/detail/amzn1.dv.gti.a8d60548-776e-4ead-a98e-9428e3675fbb" target="_blank" rel="noreferrer">
                 <img className="checkout__ad" src="https://images-eu.ssl-images-amazon.com/images/G/31/AmazonVideo/2021/X-site/SingleTitle/GZK/Launch/400x39-SWM_EN_P._CB644089983_.jpg" alt="" /></a>
                 <div>
+                    <h3>Hello, {user?.email}</h3>
                     <h2 className="checkout__title">Shopping Cart</h2>
                     {basket.map(item=>(
                         <CheckoutProduct data={item} />
